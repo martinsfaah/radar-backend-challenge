@@ -36,22 +36,18 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
 })  
     }
         db.run(`CREATE TABLE results 
-            (id INTEGER PRIMARY KEY AUTOINCREMENT,
-            id_competition INTEGER NOT NULL,
-            id_athlete INTEGER NOT NULL,
-            value INTEGER NOT NULL,
-            unit VARCHAR(50) NOT NULL,
-            FOREING KEY (id_competition)
-                REFERENCES competitions (id)
-            FOREING KEY (id_athlete)
-                REFERENCES athletes (id)
-            )`,(err) => {
+            (id_competition INTEGER,
+            id_athlete INTEGER,
+            value INTEGER,
+            unit VARCHAR(50),
+            CONSTRAINT fk_competition FOREIGN KEY (id_competition) REFERENCES competitions (id),
+            CONSTRAINT fk_athlete FOREIGN KEY (id_athlete) REFERENCES athletes (id))`,(err) => {
         if (err) {
             console.error(err.message);
             throw err
         }else{
             const insert = 'INSERT INTO results (id_competition, id_athlete, value, unit) VALUES (?,?,?,?)'
-            db.run(insert, [""])
+            db.run(insert, ["1","1","10","l"])
         }
     })
 })
