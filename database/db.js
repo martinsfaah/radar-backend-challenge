@@ -7,11 +7,10 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
       console.error(err.message);
       throw err
     }else{
-        db.run(`CREATE TABLE competitions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+        db.run(`CREATE TABLE competitions 
+            (id INTEGER PRIMARY KEY AUTOINCREMENT,
             name VARCHAR(255) NOT NULL,
-            status VARCHAR(50) NOT NULL,
-            )`,(err) => {
+            status VARCHAR(50) NOT NULL)`,(err) => {
         if (err) {
             console.error(err.message);
             throw err
@@ -23,10 +22,9 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
             db.run(insert, ["competição dardos","Em andamento"])
         }
     })
-        db.run(`CREATE TABLE athletes (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name VARCHAR(255) NOT NULL,
-            )`,(err) => {
+        db.run(`CREATE TABLE athletes 
+            (id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name VARCHAR(255) NOT NULL)`,(err) => {
         if (err) {
             console.error(err.message);
             throw err
@@ -37,15 +35,16 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
         }
 })  
     }
-        db.run(`CREATE TABLE results (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+        db.run(`CREATE TABLE results 
+            (id INTEGER PRIMARY KEY AUTOINCREMENT,
             id_competition INTEGER NOT NULL,
             id_athlete INTEGER NOT NULL,
             value INTEGER NOT NULL,
             unit VARCHAR(50) NOT NULL,
-            FOREING KEY (id_competition, id_athlete)
-                REFERENCES competitions (id_competition)
-                REFERENCES athletes (id_athlete)
+            FOREING KEY (id_competition)
+                REFERENCES competitions (id)
+            FOREING KEY (id_athlete)
+                REFERENCES athletes (id)
             )`,(err) => {
         if (err) {
             console.error(err.message);
